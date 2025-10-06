@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Contact Me — Portfolio</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+	<div class="container">
+		<header class="header">
+			<h1>Let's work together</h1>
+			<p>Have a project in mind? Drop a message and I’ll get back soon.</p>
+		</header>
+		<main>
+			<form id="contactForm" novalidate>
+				<div class="grid">
+					<label class="field">
+						<span>Name</span>
+						<input type="text" name="name" id="name" placeholder="Your full name" required minlength="2" />
+						<small class="error" data-for="name"></small>
+					</label>
+					<label class="field">
+						<span>Email</span>
+						<input type="email" name="email" id="email" placeholder="you@example.com" required />
+						<small class="error" data-for="email"></small>
+					</label>
+				</div>
+				<label class="field">
+					<span>Message</span>
+					<textarea name="message" id="message" rows="6" placeholder="Tell me about your project" required minlength="10"></textarea>
+					<small class="error" data-for="message"></small>
+				</label>
+				<div class="actions">
+					<button type="submit" id="submitBtn">
+						<span class="btn-text">Submit</span>
+						<span class="loader" aria-hidden="true"></span>
+					</button>
+				</div>
+				<p class="note">By submitting, you agree to be contacted about your inquiry.</p>
+				<div id="toast" role="status" aria-live="polite"></div>
+			</form>
+		</main>
+	</div>
+	<script src="main.js" defer></script>
+</body>
+</html>

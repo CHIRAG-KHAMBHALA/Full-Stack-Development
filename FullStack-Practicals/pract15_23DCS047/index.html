@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Portal - Session Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-book-open"></i>
+                <h1>Library Portal</h1>
+            </div>
+            <nav class="nav" id="navigation" style="display: none;">
+                <a href="index.html" class="nav-link active">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="profile.html" class="nav-link">
+                    <i class="fas fa-user"></i> Profile
+                </a>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </nav>
+        </header>
+
+        <!-- Login Form -->
+        <div class="login-section" id="loginSection">
+            <div class="login-card">
+                <div class="login-header">
+                    <i class="fas fa-user-circle"></i>
+                    <h2>Welcome to Library Portal</h2>
+                    <p>Please sign in to access your account</p>
+                </div>
+                <form class="login-form" id="loginForm">
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="username" placeholder="Enter your name" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" placeholder="Enter your email" required>
+                    </div>
+                    <button type="submit" class="login-btn">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Sign In
+                    </button>
+                </form>
+                <div class="login-footer">
+                    <p>New to Library Portal? Welcome aboard!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content (shown after login) -->
+        <div class="main-content" id="mainContent" style="display: none;">
+            <div class="welcome-section">
+                <div class="welcome-card">
+                    <h2>Welcome back, <span id="welcomeName"></span>!</h2>
+                    <p>You're successfully logged into the Library Portal</p>
+                    <div class="session-info">
+                        <div class="info-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Login Time: <strong id="loginTime"></strong></span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>Session Duration: <strong id="sessionDuration"></strong></span>
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="profile.html" class="btn btn-primary">
+                            <i class="fas fa-user"></i> View Profile
+                        </a>
+                        <button class="btn btn-secondary" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="features-section">
+                <h3>Library Features</h3>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-book"></i>
+                        <h4>Browse Books</h4>
+                        <p>Explore our vast collection of books</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-search"></i>
+                        <h4>Search Library</h4>
+                        <p>Find books, authors, and topics quickly</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-bookmark"></i>
+                        <h4>My Bookmarks</h4>
+                        <p>Save your favorite books for later</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-history"></i>
+                        <h4>Reading History</h4>
+                        <p>Track your reading progress</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>&copy; 2024 Library Portal. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

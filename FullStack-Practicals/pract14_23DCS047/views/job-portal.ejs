@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= pageTitle %></title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-briefcase"></i>
+                    <div class="logo-text">
+                        <h1>CareerPortal</h1>
+                        <span class="tagline">Your Gateway to Success</span>
+                    </div>
+                </div>
+                <nav class="nav-menu">
+                    <a href="#" class="nav-link active">
+                        <i class="fas fa-upload"></i>
+                        Upload Resume
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-search"></i>
+                        Browse Jobs
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-user"></i>
+                        Profile
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <div class="hero-content">
+                    <h2 class="hero-title">Upload Your Resume</h2>
+                    <p class="hero-subtitle">Share your professional experience with top employers. Upload your PDF resume and get discovered!</p>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-users"></i>
+                            <span class="stat-number">10,000+</span>
+                            <span class="stat-label">Active Employers</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-file-pdf"></i>
+                            <span class="stat-number"><%= totalUploads %></span>
+                            <span class="stat-label">Resumes Uploaded</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-handshake"></i>
+                            <span class="stat-number">5,000+</span>
+                            <span class="stat-label">Jobs Matched</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Message Display -->
+            <% if (message) { %>
+                <div class="message-container">
+                    <div class="message message-<%= messageType %>">
+                        <div class="message-icon">
+                            <% if (messageType === 'success') { %>
+                                <i class="fas fa-check-circle"></i>
+                            <% } else { %>
+                                <i class="fas fa-exclamation-triangle"></i>
+                            <% } %>
+                        </div>
+                        <div class="message-content">
+                            <p><%= message %></p>
+                        </div>
+                        <button class="message-close" onclick="this.parentElement.parentElement.remove()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            <% } %>
+
+            <!-- Upload Section -->
+            <section class="upload-section">
+                <div class="upload-card">
+                    <div class="upload-header">
+                        <h3>
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            Resume Upload Center
+                        </h3>
+                        <p>Drag and drop your PDF resume or click to browse</p>
+                    </div>
+
+                    <form id="uploadForm" action="/upload" method="POST" enctype="multipart/form-data" class="upload-form">
+                        <div class="upload-area" id="uploadArea">
+                            <div class="upload-icon">
+                                <i class="fas fa-file-pdf"></i>
+                            </div>
+                            <div class="upload-text">
+                                <h4>Drop your PDF resume here</h4>
+                                <p>or <span class="browse-link">click to browse</span></p>
+                                <div class="upload-requirements">
+                                    <span class="requirement">
+                                        <i class="fas fa-check"></i>
+                                        PDF files only
+                                    </span>
+                                    <span class="requirement">
+                                        <i class="fas fa-check"></i>
+                                        Maximum 2MB
+                                    </span>
+                                    <span class="requirement">
+                                        <i class="fas fa-check"></i>
+                                        Single file upload
+                                    </span>
+                                </div>
+                            </div>
+                            <input type="file" id="resumeInput" name="resume" accept=".pdf" required class="file-input">
+                        </div>
+
+                        <div class="file-preview" id="filePreview" style="display: none;">
+                            <div class="preview-content">
+                                <div class="file-info">
+                                    <i class="fas fa-file-pdf file-icon"></i>
+                                    <div class="file-details">
+                                        <span class="file-name" id="fileName"></span>
+                                        <span class="file-size" id="fileSize"></span>
+                                    </div>
+                                </div>
+                                <button type="button" class="remove-file" id="removeFile">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                            <div class="file-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="progressFill"></div>
+                                </div>
+                                <span class="progress-text" id="progressText">Ready to upload</span>
+                            </div>
+                        </div>
+
+                        <div class="upload-actions">
+                            <button type="button" class="btn btn-secondary" onclick="clearForm()">
+                                <i class="fas fa-undo"></i>
+                                Clear
+                            </button>
+                            <button type="submit" class="btn btn-primary" id="uploadBtn" disabled>
+                                <i class="fas fa-upload"></i>
+                                Upload Resume
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Uploaded Files Section -->
+            <% if (uploadedFiles && uploadedFiles.length > 0) { %>
+                <section class="files-section">
+                    <div class="files-header">
+                        <h3>
+                            <i class="fas fa-folder-open"></i>
+                            Recently Uploaded Resumes
+                            <span class="files-count">(<%= uploadedFiles.length %>)</span>
+                        </h3>
+                        <form action="/clear-all" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete all uploaded resumes?')">
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash-alt"></i>
+                                Clear All
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <div class="files-grid">
+                        <% uploadedFiles.forEach(file => { %>
+                            <div class="file-card">
+                                <div class="file-card-header">
+                                    <i class="fas fa-file-pdf file-type-icon"></i>
+                                    <div class="file-card-actions">
+                                        <a href="/download/<%= file.name %>" class="action-btn download-btn" title="Download">
+                                            <i class="fas fa-download"></i>
+                                        </a>
+                                        <form action="/delete/<%= file.name %>" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this resume?')">
+                                            <button type="submit" class="action-btn delete-btn" title="Delete">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                                
+                                <div class="file-card-body">
+                                    <h4 class="file-title"><%= file.originalName %></h4>
+                                    <div class="file-meta">
+                                        <span class="file-size-info">
+                                            <i class="fas fa-hdd"></i>
+                                            <%= file.size %>
+                                        </span>
+                                        <span class="file-date">
+                                            <i class="fas fa-calendar"></i>
+                                            <%= file.uploadDate %>
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                <div class="file-card-footer">
+                                    <span class="file-status">
+                                        <i class="fas fa-check-circle"></i>
+                                        Ready for employers
+                                    </span>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                </section>
+            <% } %>
+
+            <!-- Tips Section -->
+            <section class="tips-section">
+                <div class="tips-card">
+                    <h3>
+                        <i class="fas fa-lightbulb"></i>
+                        Resume Upload Tips
+                    </h3>
+                    <div class="tips-grid">
+                        <div class="tip-item">
+                            <i class="fas fa-file-pdf tip-icon"></i>
+                            <div class="tip-content">
+                                <h4>PDF Format Only</h4>
+                                <p>We accept only PDF files to ensure your resume maintains its formatting across all devices and platforms.</p>
+                            </div>
+                        </div>
+                        <div class="tip-item">
+                            <i class="fas fa-weight tip-icon"></i>
+                            <div class="tip-content">
+                                <h4>File Size Limit</h4>
+                                <p>Keep your resume under 2MB for faster uploads and better performance. Optimize images and graphics if needed.</p>
+                            </div>
+                        </div>
+                        <div class="tip-item">
+                            <i class="fas fa-search tip-icon"></i>
+                            <div class="tip-content">
+                                <h4>Make it ATS-Friendly</h4>
+                                <p>Use standard fonts and clear formatting to ensure your resume is easily readable by applicant tracking systems.</p>
+                            </div>
+                        </div>
+                        <div class="tip-item">
+                            <i class="fas fa-shield-alt tip-icon"></i>
+                            <div class="tip-content">
+                                <h4>Privacy & Security</h4>
+                                <p>Your resume is stored securely and only shared with employers when you apply for specific positions.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>CareerPortal</h4>
+                    <p>Connecting talented professionals with leading employers worldwide.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Features</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Resume Builder</a></li>
+                        <li><a href="#">Job Search</a></li>
+                        <li><a href="#">Career Advice</a></li>
+                        <li><a href="#">Salary Insights</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Security</h4>
+                    <div class="security-badges">
+                        <div class="badge">
+                            <i class="fas fa-lock"></i>
+                            <span>SSL Encrypted</span>
+                        </div>
+                        <div class="badge">
+                            <i class="fas fa-shield-check"></i>
+                            <span>File Validation</span>
+                        </div>
+                        <div class="badge">
+                            <i class="fas fa-server"></i>
+                            <span>Secure Storage</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 CareerPortal. All rights reserved. | Secure file uploads with validation and size limits.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // File upload functionality
+        const uploadArea = document.getElementById('uploadArea');
+        const resumeInput = document.getElementById('resumeInput');
+        const filePreview = document.getElementById('filePreview');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const uploadForm = document.getElementById('uploadForm');
+
+        // File input change handler
+        resumeInput.addEventListener('change', handleFileSelect);
+
+        // Drag and drop handlers
+        uploadArea.addEventListener('dragover', handleDragOver);
+        uploadArea.addEventListener('dragleave', handleDragLeave);
+        uploadArea.addEventListener('drop', handleFileDrop);
+        uploadArea.addEventListener('click', () => resumeInput.click());
+
+        // Remove file handler
+        document.getElementById('removeFile').addEventListener('click', clearForm);
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            uploadArea.classList.add('drag-over');
+        }
+
+        function handleDragLeave(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('drag-over');
+        }
+
+        function handleFileDrop(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('drag-over');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                resumeInput.files = files;
+                handleFileSelect();
+            }
+        }
+
+        function handleFileSelect() {
+            const file = resumeInput.files[0];
+            if (file) {
+                // Validate file type
+                if (file.type !== 'application/pdf') {
+                    showError('Please select a PDF file only! 📄');
+                    clearForm();
+                    return;
+                }
+
+                // Validate file size (2MB)
+                if (file.size > 2 * 1024 * 1024) {
+                    showError('File size too large! Please select a PDF file smaller than 2MB. 📦');
+                    clearForm();
+                    return;
+                }
+
+                // Show file preview
+                showFilePreview(file);
+                uploadBtn.disabled = false;
+                uploadArea.style.display = 'none';
+            }
+        }
+
+        function showFilePreview(file) {
+            document.getElementById('fileName').textContent = file.name;
+            document.getElementById('fileSize').textContent = formatFileSize(file.size);
+            filePreview.style.display = 'block';
+            
+            // Animate progress bar
+            animateProgress();
+        }
+
+        function animateProgress() {
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            
+            progressFill.style.width = '100%';
+            progressText.textContent = 'File ready for upload';
+            progressFill.style.background = '#10b981';
+        }
+
+        function clearForm() {
+            resumeInput.value = '';
+            filePreview.style.display = 'none';
+            uploadArea.style.display = 'flex';
+            uploadBtn.disabled = true;
+            
+            const progressFill = document.getElementById('progressFill');
+            progressFill.style.width = '0%';
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function showError(message) {
+            // Create temporary error message
+            const messageContainer = document.querySelector('.message-container') || createMessageContainer();
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'message message-error';
+            errorDiv.innerHTML = `
+                <div class="message-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="message-content">
+                    <p>${message}</p>
+                </div>
+                <button class="message-close" onclick="this.parentElement.parentElement.removeChild(this.parentElement)">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            messageContainer.appendChild(errorDiv);
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (errorDiv.parentElement) {
+                    errorDiv.parentElement.removeChild(errorDiv);
+                }
+            }, 5000);
+        }
+
+        function createMessageContainer() {
+            const container = document.createElement('div');
+            container.className = 'message-container';
+            document.querySelector('.main-content').insertBefore(container, document.querySelector('.upload-section'));
+            return container;
+        }
+
+        // Form submission with progress
+        uploadForm.addEventListener('submit', function(e) {
+            uploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
+            uploadBtn.disabled = true;
+            
+            const progressText = document.getElementById('progressText');
+            progressText.textContent = 'Uploading resume...';
+        });
+
+        // Auto-hide messages after 10 seconds
+        setTimeout(() => {
+            const messages = document.querySelectorAll('.message');
+            messages.forEach(message => {
+                message.style.opacity = '0';
+                setTimeout(() => {
+                    if (message.parentElement) {
+                        message.parentElement.removeChild(message);
+                    }
+                }, 300);
+            });
+        }, 10000);
+    </script>
+</body>
+</html>

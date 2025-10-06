@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧮 Kids Calculator - Math is Fun! 🎉</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧮 Kids Calculator 🎉</h1>
+            <p class="subtitle">Let's have fun with numbers! 🌟</p>
+        </header>
+
+        <!-- RESULT_PLACEHOLDER -->
+
+        <div class="calculator-box">
+            <form action="/calculate" method="POST" class="calculator-form">
+                <div class="input-group">
+                    <label for="number1">First Number 🔢</label>
+                    <input 
+                        type="text" 
+                        id="number1" 
+                        name="number1" 
+                        value=""
+                        placeholder="Enter first number..."
+                        required
+                    >
+                </div>
+
+                <div class="operation-group">
+                    <label>Choose an Operation 🎯</label>
+                    <div class="operation-buttons">
+                        <label class="operation-btn">
+                            <input type="radio" name="operation" value="add" required>
+                            <span class="btn-content">
+                                <span class="symbol">➕</span>
+                                <span class="text">Add</span>
+                            </span>
+                        </label>
+                        
+                        <label class="operation-btn">
+                            <input type="radio" name="operation" value="subtract" required>
+                            <span class="btn-content">
+                                <span class="symbol">➖</span>
+                                <span class="text">Subtract</span>
+                            </span>
+                        </label>
+                        
+                        <label class="operation-btn">
+                            <input type="radio" name="operation" value="multiply" required>
+                            <span class="btn-content">
+                                <span class="symbol">✖️</span>
+                                <span class="text">Multiply</span>
+                            </span>
+                        </label>
+                        
+                        <label class="operation-btn">
+                            <input type="radio" name="operation" value="divide" required>
+                            <span class="btn-content">
+                                <span class="symbol">➗</span>
+                                <span class="text">Divide</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="number2">Second Number 🔢</label>
+                    <input 
+                        type="text" 
+                        id="number2" 
+                        name="number2" 
+                        value=""
+                        placeholder="Enter second number..."
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="calculate-btn">
+                    🎯 Calculate Now! ✨
+                </button>
+            </form>
+        </div>
+
+        <div class="tips-box">
+            <h3>💡 Tips for Young Mathematicians:</h3>
+            <ul>
+                <li>🔢 You can use whole numbers like: 5, 10, 25</li>
+                <li>🎯 You can also use decimals like: 2.5, 1.25, 10.5</li>
+                <li>➕ Addition makes numbers bigger!</li>
+                <li>➖ Subtraction makes numbers smaller!</li>
+                <li>✖️ Multiplication is like adding many times!</li>
+                <li>➗ Division splits numbers into equal parts!</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>🌟 Keep practicing and you'll become a math wizard! 🧙‍♂️✨</p>
+        </footer>
+    </div>
+
+    <script>
+        // Add some fun interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            const operationBtns = document.querySelectorAll('.operation-btn');
+            
+            operationBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    operationBtns.forEach(b => b.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                });
+            });
+
+            // Add number validation on input
+            const numberInputs = document.querySelectorAll('input[type="text"]');
+            numberInputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    const value = this.value;
+                    if (value && !/^-?\d*\.?\d*$/.test(value)) {
+                        this.style.borderColor = '#ff6b6b';
+                        this.style.backgroundColor = '#ffe6e6';
+                    } else {
+                        this.style.borderColor = '#4ecdc4';
+                        this.style.backgroundColor = '#ffffff';
+                    }
+                });
+            });
+
+            // Form submission animation
+            const form = document.querySelector('.calculator-form');
+            form.addEventListener('submit', function() {
+                const submitBtn = document.querySelector('.calculate-btn');
+                submitBtn.innerHTML = '🎯 Calculating... ⏳';
+                submitBtn.disabled = true;
+            });
+        });
+    </script>
+</body>
+</html>

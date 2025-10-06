@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Our Site</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="nav-brand">
+                <i class="fas fa-store"></i>
+                <span>Product Site</span>
+            </div>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/api/status">Status</a>
+                <a href="#about">About</a>
+            </div>
+        </nav>
+
+        <main class="hero">
+            <div class="hero-content">
+                <div class="welcome-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <h1 class="welcome-title">Welcome to our site</h1>
+                <p class="welcome-subtitle">
+                    Your journey starts here. Explore our amazing products and discover what makes us special.
+                </p>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="checkStatus()">
+                        <i class="fas fa-chart-line"></i>
+                        Check Server Status
+                    </button>
+                    <button class="btn btn-secondary" onclick="showInfo()">
+                        <i class="fas fa-info-circle"></i>
+                        Learn More
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <section class="features" id="about">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-lightning-bolt"></i>
+                    <h3>Fast & Reliable</h3>
+                    <p>Built with Express.js for optimal performance and reliability.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Secure</h3>
+                    <p>Implementing best practices for web security and data protection.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                    <h3>Scalable</h3>
+                    <p>Designed with future growth and feature expansion in mind.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <p>&copy; 2024 Product Site - Built by Hitarth Sherathia 23DCS122</p>
+                <div class="server-info" id="serverInfo">
+                    <span class="status-dot"></span>
+                    <span>Server Online</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

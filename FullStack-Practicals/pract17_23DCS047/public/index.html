@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Tuition Admin - Students</title>
+	<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+	<header>
+		<h1>Tuition Admin</h1>
+	</header>
+	<main>
+		<section class="controls">
+			<form id="student-form">
+				<h2>Add / Edit Student</h2>
+				<input type="hidden" id="student-id">
+				<label>Name<input type="text" id="name" required minlength="2" maxlength="100"></label>
+				<label>Email<input type="email" id="email" required></label>
+				<label>Phone<input type="text" id="phone" placeholder="+1 555 123 4567"></label>
+				<label>Course<input type="text" id="course" required></label>
+				<label class="checkbox"><input type="checkbox" id="feePaid"> Fee Paid</label>
+				<div class="actions">
+					<button type="submit">Save</button>
+					<button type="button" id="reset-btn">Reset</button>
+				</div>
+			</form>
+			<div class="search">
+				<input type="text" id="search" placeholder="Search by name, email, course">
+				<button id="search-btn">Search</button>
+			</div>
+		</section>
+		<section>
+			<h2>Students</h2>
+			<table id="students-table">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Email</th>
+						<th>Phone</th>
+						<th>Course</th>
+						<th>Fee Paid</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</section>
+	</main>
+	<script src="/admin.js"></script>
+</body>
+</html>
+

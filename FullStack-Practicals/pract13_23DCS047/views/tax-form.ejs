@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= pageTitle %></title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <h1>Income Tax Calculator</h1>
+                </div>
+                <p class="subtitle">Calculate your total income from multiple sources</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Error Messages -->
+            <% if (errors && errors.length > 0) { %>
+                <div class="alert alert-error">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div class="alert-content">
+                        <h3>Please correct the following errors:</h3>
+                        <ul>
+                            <% errors.forEach(error => { %>
+                                <li><%= error %></li>
+                            <% }); %>
+                        </ul>
+                    </div>
+                </div>
+            <% } %>
+
+            <!-- Success Result -->
+            <% if (result) { %>
+                <div class="result-section">
+                    <div class="result-card">
+                        <div class="result-header">
+                            <i class="fas fa-check-circle"></i>
+                            <h2>Income Calculation Complete</h2>
+                            <p class="calculation-date">Calculated on <%= result.calculationDate %></p>
+                        </div>
+                        
+                        <div class="result-breakdown">
+                            <div class="income-item">
+                                <div class="income-source">
+                                    <i class="fas fa-briefcase"></i>
+                                    <span class="source-label">Primary Income Source:</span>
+                                    <span class="source-name"><%= result.primarySource %></span>
+                                </div>
+                                <div class="income-amount primary">
+                                    <%= result.primaryIncomeFormatted %>
+                                </div>
+                            </div>
+                            
+                            <div class="income-item">
+                                <div class="income-source">
+                                    <i class="fas fa-plus-circle"></i>
+                                    <span class="source-label">Secondary Income Source:</span>
+                                    <span class="source-name"><%= result.secondarySource %></span>
+                                </div>
+                                <div class="income-amount secondary">
+                                    <%= result.secondaryIncomeFormatted %>
+                                </div>
+                            </div>
+                            
+                            <div class="total-divider"></div>
+                            
+                            <div class="income-item total">
+                                <div class="income-source">
+                                    <i class="fas fa-calculator"></i>
+                                    <span class="source-label">Total Annual Income:</span>
+                                </div>
+                                <div class="income-amount total-amount">
+                                    <%= result.totalIncomeFormatted %>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="result-actions">
+                            <a href="/reset" class="btn btn-secondary">
+                                <i class="fas fa-redo"></i>
+                                Calculate New Income
+                            </a>
+                            <button onclick="window.print()" class="btn btn-primary">
+                                <i class="fas fa-print"></i>
+                                Print Results
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+
+            <!-- Tax Form -->
+            <div class="form-section">
+                <div class="form-card">
+                    <div class="form-header">
+                        <h2>
+                            <i class="fas fa-edit"></i>
+                            Income Information Form
+                        </h2>
+                        <p>Please provide your income details from two sources. All calculations are performed server-side for security.</p>
+                    </div>
+                    
+                    <form action="/calculate" method="POST" class="tax-form">
+                        <!-- Primary Income Section -->
+                        <div class="section">
+                            <h3 class="section-title">
+                                <i class="fas fa-star"></i>
+                                Primary Income Source
+                            </h3>
+                            
+                            <div class="form-group">
+                                <label for="primarySource" class="form-label">
+                                    <i class="fas fa-tag"></i>
+                                    Income Source Description
+                                    <span class="required">*</span>
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="primarySource" 
+                                    name="primarySource" 
+                                    value="<%= formData.primarySource %>"
+                                    placeholder="e.g., Salary from ABC Company, Freelance Income, etc."
+                                    class="form-input"
+                                    required
+                                >
+                                <small class="form-hint">Describe your primary source of income</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="primaryIncome" class="form-label">
+                                    <i class="fas fa-dollar-sign"></i>
+                                    Annual Income Amount
+                                    <span class="required">*</span>
+                                </label>
+                                <div class="input-wrapper">
+                                    <span class="input-prefix">$</span>
+                                    <input 
+                                        type="text" 
+                                        id="primaryIncome" 
+                                        name="primaryIncome" 
+                                        value="<%= formData.primaryIncome %>"
+                                        placeholder="0.00"
+                                        class="form-input currency-input"
+                                        required
+                                    >
+                                </div>
+                                <small class="form-hint">Enter your annual income from this source (numbers only, no commas)</small>
+                            </div>
+                        </div>
+
+                        <!-- Secondary Income Section -->
+                        <div class="section">
+                            <h3 class="section-title">
+                                <i class="fas fa-plus"></i>
+                                Secondary Income Source
+                            </h3>
+                            
+                            <div class="form-group">
+                                <label for="secondarySource" class="form-label">
+                                    <i class="fas fa-tag"></i>
+                                    Income Source Description
+                                    <span class="required">*</span>
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="secondarySource" 
+                                    name="secondarySource" 
+                                    value="<%= formData.secondarySource %>"
+                                    placeholder="e.g., Investment Dividends, Part-time Job, Rental Income, etc."
+                                    class="form-input"
+                                    required
+                                >
+                                <small class="form-hint">Describe your secondary source of income</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="secondaryIncome" class="form-label">
+                                    <i class="fas fa-dollar-sign"></i>
+                                    Annual Income Amount
+                                    <span class="required">*</span>
+                                </label>
+                                <div class="input-wrapper">
+                                    <span class="input-prefix">$</span>
+                                    <input 
+                                        type="text" 
+                                        id="secondaryIncome" 
+                                        name="secondaryIncome" 
+                                        value="<%= formData.secondaryIncome %>"
+                                        placeholder="0.00"
+                                        class="form-input currency-input"
+                                        required
+                                    >
+                                </div>
+                                <small class="form-hint">Enter your annual income from this source (numbers only, no commas)</small>
+                            </div>
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="form-actions">
+                            <button type="button" onclick="resetForm()" class="btn btn-outline">
+                                <i class="fas fa-eraser"></i>
+                                Clear Form
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-calculator"></i>
+                                Calculate Total Income
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <p>&copy; 2024 Income Tax Calculator. All calculations are performed server-side for your security.</p>
+                <div class="footer-badges">
+                    <span class="badge">
+                        <i class="fas fa-shield-alt"></i>
+                        Server-Side Validation
+                    </span>
+                    <span class="badge">
+                        <i class="fas fa-lock"></i>
+                        Secure Processing
+                    </span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Form reset function
+        function resetForm() {
+            if (confirm('Are you sure you want to clear all form data?')) {
+                document.querySelector('.tax-form').reset();
+            }
+        }
+
+        // Currency input formatting (client-side for UX, but validation is server-side)
+        document.querySelectorAll('.currency-input').forEach(input => {
+            input.addEventListener('input', function() {
+                // Remove any non-numeric characters except decimals
+                let value = this.value.replace(/[^\d.]/g, '');
+                
+                // Ensure only one decimal point
+                const parts = value.split('.');
+                if (parts.length > 2) {
+                    value = parts[0] + '.' + parts.slice(1).join('');
+                }
+                
+                // Limit decimal places to 2
+                if (parts[1] && parts[1].length > 2) {
+                    value = parts[0] + '.' + parts[1].slice(0, 2);
+                }
+                
+                this.value = value;
+            });
+        });
+
+        // Print media query handling
+        window.addEventListener('beforeprint', function() {
+            document.body.classList.add('printing');
+        });
+
+        window.addEventListener('afterprint', function() {
+            document.body.classList.remove('printing');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+.dashboard {
+  display: flex;
+  height: 100vh;
+  background: var(--white);
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--gray-50);
+}
+
+.no-chat-selected {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background: var(--white);
+}
+
+.no-chat-content {
+  text-align: center;
+  max-width: 24rem;
+  padding: 2rem;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.no-chat-content i {
+  font-size: 4rem;
+  color: var(--gray-300);
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.no-chat-content h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--gray-900);
+  margin-bottom: 0.75rem;
+}
+
+.no-chat-content p {
+  color: var(--gray-500);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.start-chat-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: var(--white);
+  border: none;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-md);
+}
+
+.start-chat-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.start-chat-btn:active {
+  transform: translateY(0);
+}
+
+.start-chat-btn i {
+  font-size: 0.875rem;
+}
+
+/* Loading States */
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+}
+
+.loading-spinner {
+  text-align: center;
+  color: var(--white);
+}
+
+.loading-spinner i {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  animation: spin 1s linear infinite;
+}
+
+.loading-spinner p {
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dashboard {
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+  .no-chat-content {
+    padding: 1rem;
+  }
+  
+  .no-chat-content i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+  
+  .no-chat-content h3 {
+    font-size: 1.25rem;
+  }
+  
+  .start-chat-btn {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .no-chat-content {
+    padding: 0.5rem;
+    max-width: 20rem;
+  }
+  
+  .no-chat-content i {
+    font-size: 2.5rem;
+  }
+  
+  .no-chat-content h3 {
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .no-chat-content p {
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+  }
+}

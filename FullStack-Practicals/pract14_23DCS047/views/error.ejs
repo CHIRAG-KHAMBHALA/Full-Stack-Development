@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= pageTitle %> - CareerPortal</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-briefcase"></i>
+                    <div class="logo-text">
+                        <h1>CareerPortal</h1>
+                        <span class="tagline">Your Gateway to Success</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section class="error-section">
+                <div class="error-card">
+                    <div class="error-icon">
+                        <% if (errorCode === 404) { %>
+                            <i class="fas fa-search"></i>
+                        <% } else { %>
+                            <i class="fas fa-exclamation-triangle"></i>
+                        <% } %>
+                    </div>
+                    
+                    <h1 class="error-code">Error <%= errorCode %></h1>
+                    <h2 class="error-title">
+                        <% if (errorCode === 404) { %>
+                            Page Not Found
+                        <% } else { %>
+                            Server Error
+                        <% } %>
+                    </h2>
+                    
+                    <p class="error-message"><%= errorMessage %></p>
+                    
+                    <div class="error-actions">
+                        <a href="/" class="btn btn-primary">
+                            <i class="fas fa-home"></i>
+                            Return to Job Portal
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-bottom">
+                <p>&copy; 2024 CareerPortal. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
